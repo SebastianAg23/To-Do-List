@@ -1,0 +1,61 @@
+<div class="container py-4">
+  <div class="p-5 mb-4 bg-body-tertiary rounded-3">
+    <div class="container-fluid">
+      <h1 class="display-5 fw-bold">Nueva Tarea</h1>
+      <form class="row g-3" (ngSubmit)="addNewTask(taskInput.value)">
+        <div class="col-10">
+          <input type="text" class="form-control" placeholder="Ingresa el titulo de la tarea" #taskInput>
+        </div>
+        <div class="col-2">
+          <button type="submit" class="btn btn-success mb-3">
+            <i class="fa-solid fa-plus"></i> Añadir Tarea
+          </button>
+        </div>
+      </form>
+    </div>
+    <hr>
+    <div class="container-fluid">
+      <table class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Tarea</th>
+            <th scope="col" [width]="150">Estado</th>
+            <th scope="col" [width]="200">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (Task of _task.TaskList(); track Task.id; let idx = $index) {
+            <tr #rowElement (click)="selectRow(rowElement)">
+              <th scope="row">{{ idx + 1 }}</th>
+              <td>{{ Task.title | titlecase }}</td>
+              <td>
+                @if(Task.status) {
+                  <p class="badge rounded-pill text-bg-success fs-6 mb-0">Finalizado</p>
+                } @else {
+                  <p class="badge rounded-pill text-bg-secondary fs-6 mb-0">Pendiente</p>
+                }
+              </td>
+              <td>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                  @if(!(Task.status)) {
+                    <button type="button" class="btn btn-success btn-sm" (click)="checkTask(Task.id)">
+                      <i class="fa-solid fa-check"></i>
+                    </button>
+                  }
+                  <button type="button" class="btn btn-danger btn-sm" (click)="deleteTask(Task.id)">
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          } @empty { 
+            <tr>
+              <td colspan="3" class="text-center">Sin Tareas</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
