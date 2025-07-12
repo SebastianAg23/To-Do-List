@@ -43,13 +43,14 @@ export class TaskService {
   }
 
   /**
-   * Finaliza una tarea según el ID proporcionado
+   * Cambia el estado de una tarea según el ID proporcionado
    * @param {string} id - ID Tarea
+   * @param {boolean} status - Estado
    * @returns {void}
    */
-  public finishTask(id: string): void {
+  public changeTaskStatus(id: string, status: boolean): void {
     this.TaskList.update((items: Task[]) => {
-      return items.map((item: Task) => ((item.id === id) ? {...item, status: true} : item));
+      return items.map((item: Task) => ((item.id === id) ? {...item, status } : item));
     })
   }
 }
